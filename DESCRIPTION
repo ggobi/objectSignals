@@ -1,0 +1,11 @@
+Package: objectSignals
+License: GPL (>= 2)
+Maintainer: Michael Lawrence <michafla@gene.com>
+Title: objectSignals
+Author: Michael Lawrence
+Description: A mutable Signal object can report changes to its state,
+    clients could register functions so that they are called whenever
+    the signal is emited. The signal could be emited, disconnected,
+    blocked, unblocked, and buffered.
+Version: 0.0.1
+Collate: 'signal-class.R' 'utils.R'
