@@ -196,4 +196,14 @@ setMethod("show", "Signal", function(object) {
       length(object$.listeners), "listeners\n")
 })
 
+## length
+setMethod("length", "Signal", function(x){
+  length(x$.listeners)
+})
+
+setGeneric("listeners", function(object, ...) standardGeneric("listeners"))
+setMethod("listeners", "Signal", function(object){
+  object$.listeners
+})
+
 
