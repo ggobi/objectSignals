@@ -196,12 +196,29 @@ setMethod("show", "Signal", function(object) {
       length(object$.listeners), "listeners\n")
 })
 
-## length
+##' Return how many listerns a \code{Signal} object contain
+##'
+##' .. content for \details{} ..
+##' @title Quantity of listeners
+##' @param x \code{Signal} object
+##' @return Numieric value indicate how many listeners this signal contains
+##' @seealso \code{\link{listeners}}
+##' @author Tengfei Yin
+##' @export
 setMethod("length", "Signal", function(x){
   length(x$.listeners)
 })
 
 setGeneric("listeners", function(object, ...) standardGeneric("listeners"))
+
+##' Return listerners of a \code{Signal} object
+##'
+##' .. content for \details{} ..
+##' @title listeners list
+##' @param object \code{Signal} object
+##' @return A list of listeners
+##' @author Tengfei Yin
+##' @export
 setMethod("listeners", "Signal", function(object){
   object$.listeners
 })

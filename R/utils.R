@@ -46,16 +46,23 @@ signalingField <- function(name, class,
 ##' Convenience function for defining a set of reference class fields that
 ##' signals when set.
 ##'
+##' When constructing signaling fields in this way, each field has the ability
+##' to register its own signal and at the same time, there is one top level signal
+##' which could be emitted no matter which field changes. Please see the example
+##' to learn to register global signal and individual signal.
+##'
 ##' @title Signaling Fields 
-##' @param fields list of names of the field and associated fileds class 
+##' @param fields list of names of the field and associated fields class 
 ##' @param signalName Name of the signal
 ##' @return A list that is easily concatenated into the field list
-##' @author Michael Lawrence
-##' @examples Brush.gen <- setRefClass("Brush",
-##'                         fields = signalingFields(list(color = "character",
+##' @author Michael Lawrence, Tengfei Yin
+##' @examples
+##' Brush.gen <- setRefClass("Brush",
+##'                        fields = signalingFields(list(color = "character",
 ##'                           age = "numeric")))
 ##' brush <- Brush.gen$new(color = "red", age = 2)
-##' brush$changed$connect(function(){print("all changed")})
+##' brush$changed$connect(function(x){print(paste(x,                                     ##'       "changed, so emit any-changed signal"))})
+##' brush$colorChanged$connect(function() print("colorChanged signal emited"))
 ##' brush$age <- 3
 ##' brush$color <- "blue"
 ##' @export
@@ -63,7 +70,8 @@ signalingFields <- function(fields, signalName = "changed") {
   if (!length(fields))
     return(list())
   .fieldNames <- paste(".", names(fields), sep = "")
-  activeFields <- mapply(function(fieldClass, fieldName, .fieldName) {
+  activeFields <- mapply(function(fieldClass, fieldName, .fieldName,
+                                  thisSignal) {
     as.function(c(alist(val=), substitute({
       if (missing(val)) {
         .fieldName
@@ -75,15 +83,27 @@ signalingFields <- function(fields, signalName = "changed") {
         else if (!isTRUE(msg <- validObject(tmpVal, TRUE)))
           stop("Attempt to set invalid value on '", fieldName, "': ", msg)
         val <- tmpVal
+        changedlogic <- !identical(.fieldName, val)
+        if (changedlogic) {
+          signalName$emit(fieldName)    #global signal
+          thisSignal$emit()             #individual signal
+        }
         .fieldName <<- val
-        signalName$emit(fieldName)
       }
     }, list(.fieldName = as.name(.fieldName),
             fieldClass = fieldClass, fieldName = fieldName,
+            thisSignal = as.name(thisSignal),
             signalName = as.name(signalName)))))
-  }, fields, names(fields), .fieldNames)
+  }, fields, names(fields), .fieldNames, paste(names(fields), "Changed", sep = ""))
+  indSigs <- lapply(names(fields), function(nm){
+      nm <- paste(nm, "Changed", sep = "")
+      lazyField(nm,"Signal", Signal())
+    })
   c(activeFields, structure(fields, names = .fieldNames),
-    lazyField(signalName,"Signal", Signal(name))) 
+    lazyField(signalName,"Signal", Signal(name)),
+    unlist(indSigs))
+    ## structure(as.list(rep("Signal", length(fields))),
+    ##           names = indSigs)
 }
 
 ## call("declareSignal", as.name(signalName))
