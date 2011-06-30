@@ -72,11 +72,11 @@ signalingFields <- function(fields, signalName = "changed") {
           stop("Attempt to set invalid value on '", fieldName, "': ", msg)
         val <- tmpVal
         changedlogic <- !identical(.fieldName, val)
+        .fieldName <<- val
         if (changedlogic) {
           signalName$emit(fieldName)    #global signal
           thisSignal$emit()             #individual signal
         }
-        .fieldName <<- val
       }
     }, list(.fieldName = as.name(.fieldName),
             fieldClass = fieldClass, fieldName = fieldName,
