@@ -12,11 +12,7 @@
 ##' @param signalName Name of the signal
 ##' @return A list that is easily concatenated into the field list
 ##' @author Michael Lawrence
-##' @examples Brush.gen <- setRefClass("Brush",
-##' fields = signalingField("color", "character"))
-##' brush <- Brush.gen$new(color = "blue")
-##' brush$colorChanged$connect(function() print(brush$color))
-##' brush$color <- "red"
+##' @example objectSignals/inst/examples/signalingField.R
 ##' @export
 signalingField <- function(name, class,
                            signalName = paste(name, "Changed", sep = ""))
@@ -56,15 +52,7 @@ signalingField <- function(name, class,
 ##' @param signalName Name of the signal
 ##' @return A list that is easily concatenated into the field list
 ##' @author Michael Lawrence, Tengfei Yin
-##' @examples
-##' Brush.gen <- setRefClass("Brush",
-##'                        fields = signalingFields(list(color = "character",
-##'                           age = "numeric")))
-##' brush <- Brush.gen$new(color = "red", age = 2)
-##' brush$changed$connect(function(x){print(paste(x,                                     ##'       "changed, so emit any-changed signal"))})
-##' brush$colorChanged$connect(function() print("colorChanged signal emited"))
-##' brush$age <- 3
-##' brush$color <- "blue"
+##' @example objectSignals/inst/examples/signalingFields.R
 ##' @export
 signalingFields <- function(fields, signalName = "changed") {
   if (!length(fields))

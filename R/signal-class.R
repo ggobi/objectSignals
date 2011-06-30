@@ -1,6 +1,7 @@
 ## ======================================================================
 ## Signal class
 ## ======================================================================
+
 Signal.gen <- setRefClass("Signal",
                           fields = list(.listeners = "list", emit = "function",
                             .idCounter = "integer", .blocked = "logical",
@@ -61,50 +62,9 @@ Signal.gen <- setRefClass("Signal",
 ##' @param ... Arguments that express the signature of the signal.
 ##' @return An instance of the reference class \code{Signal}
 ##' @author Michael Lawrence
-##' @examples
-##' Signal(x, y)
-##' signal <- Signal(x, y, z = NA)
-##' signal$connect(function(n, x, option = "none") message("x:", x),
-##'                namedArgs = TRUE)
-##' signal$connect(function(z, ...) message("z:", z, " x:", list(...)$x),
-##'                namedArgs = TRUE)
-##' signal$emit(0, 1)
-##'
-##' signal$connect(function(x, y, option = "none")
-##'                message("y:", y, " op:", option), TRUE)
-##' signal$connect(function(x, y, option = "none")
-##'                message("op:", option), option = "test")
-##' signal$connect(function(x, y, option = "none")
-##'                message("op:", option), FALSE, "test")
-##' id <- signal$connect(function(x, y, option = "none")
-##'                      message("op:", option), TRUE, "test")
-##'
-##' signal$emit(0, 1)
-##'
-##' signal$disconnect(id)
-##' signal$emit(0, 2)
-##'
-##' signal <- Signal(x)
-##' signal$connect(function(i) print(i))
-##'
-##' signal$block()
-##' signal$emit(0)
-##' signal$unblock()
-##' signal$emit(0)
-##'
-##' signal$buffer()
-##' signal$emit(0); signal$emit(1); signal$emit(3)
-##' signal$flush()
-##'
-##' signal$accumulator(function(prev, cur) {
-##'   prev$x <- c(prev$x, cur$x)
-##'   prev
-##' })
-##' signal$buffer()
-##' signal$emit(0); signal$emit(1); signal$emit(3)
-##' signal$flush()
+##' @example objectSignals/inst/examples/Signal.R
+##' @exportClass Signal
 ##' @export
-
 Signal <- function(...) {
   call <- sys.call()[-1L]
   hasDefault <-
@@ -198,27 +158,38 @@ setMethod("show", "Signal", function(object) {
 
 ##' Return how many listerns a \code{Signal} object contain
 ##'
-##' .. content for \details{} ..
-##' @title Quantity of listeners
+##' @title length method for \code{Signal} class
 ##' @param x \code{Signal} object
 ##' @return Numieric value indicate how many listeners this signal contains
+##' @docType methods
+##' @rdname length-methods
 ##' @seealso \code{\link{listeners}}
 ##' @author Tengfei Yin
-##' @export
+##' @exportMethod length
 setMethod("length", "Signal", function(x){
   length(x$.listeners)
 })
-
+##' des
+##'
+##' details about listeners
+##' @title Generic listeners
+##' @param object \code{signal} object
+##' @param ... 
+##' @return bla
+##' @docType methods
+##' @rdname listeners-methods
+##' @author tengfei
+##' @exportMethod listeners
 setGeneric("listeners", function(object, ...) standardGeneric("listeners"))
 
 ##' Return listerners of a \code{Signal} object
 ##'
-##' .. content for \details{} ..
-##' @title listeners list
+##' @title listeners method for \code{Signal} class
 ##' @param object \code{Signal} object
 ##' @return A list of listeners
-##' @author Tengfei Yin
-##' @export
+##' @docType methods
+##' @rdname listeners-methods
+##' @author Tengfei Yin 
 setMethod("listeners", "Signal", function(object){
   object$.listeners
 })
