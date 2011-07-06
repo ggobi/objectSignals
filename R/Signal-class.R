@@ -1,7 +1,6 @@
 ## ======================================================================
 ## Signal class
 ## ======================================================================
-
 Signal.gen <- setRefClass("Signal",
                           fields = list(.listeners = "list", emit = "function",
                             .idCounter = "integer", .blocked = "logical",
@@ -62,9 +61,8 @@ Signal.gen <- setRefClass("Signal",
 ##' @param ... Arguments that express the signature of the signal.
 ##' @return An instance of the reference class \code{Signal}
 ##' @author Michael Lawrence
+##' @aliases Signal-class
 ##' @example objectSignals/inst/examples/Signal.R
-##' @exportClass Signal
-##' @export
 Signal <- function(...) {
   call <- sys.call()[-1L]
   hasDefault <-
@@ -161,26 +159,14 @@ setMethod("show", "Signal", function(object) {
 ##' @title length method for \code{Signal} class
 ##' @param x \code{Signal} object
 ##' @return Numieric value indicate how many listeners this signal contains
-##' @docType methods
 ##' @rdname length-methods
 ##' @seealso \code{\link{listeners}}
 ##' @author Tengfei Yin
-##' @exportMethod length
 setMethod("length", "Signal", function(x){
   length(x$.listeners)
 })
-##' des
-##'
-##' details about listeners
-##' @title Generic listeners
-##' @param object \code{signal} object
-##' @param ... 
-##' @return bla
-##' @docType methods
-##' @rdname listeners-methods
-##' @author tengfei
-##' @exportMethod listeners
-setGeneric("listeners", function(object, ...) standardGeneric("listeners"))
+
+setGeneric("listeners", function(object) standardGeneric("listeners"))
 
 ##' Return listerners of a \code{Signal} object
 ##'

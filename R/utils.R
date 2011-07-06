@@ -90,12 +90,7 @@ signalingFields <- function(fields, signalName = "changed") {
   c(activeFields, structure(fields, names = .fieldNames),
     lazyField(signalName,"Signal", Signal(name)),
     unlist(indSigs))
-    ## structure(as.list(rep("Signal", length(fields))),
-    ##           names = indSigs)
 }
-
-## call("declareSignal", as.name(signalName))
-## eval(substitute(declareSignal(signal(name)), list(signal = as.name(signalName))))
 
 
 ##' Declares a lazily initialized field, with the class and initializer.

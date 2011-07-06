@@ -7,5 +7,8 @@ Description: A mutable Signal object can report changes to its state,
     clients could register functions so that they are called whenever
     the signal is emited. The signal could be emited, disconnected,
     blocked, unblocked, and buffered.
+Depends: methods
+Imports: methods
 Version: 0.5.2
-Collate: 'signal-class.R' 'utils.R'
+Collate: Signal-class.R
+	 utils.R

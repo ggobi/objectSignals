@@ -14,9 +14,9 @@ to learn to register global signal and individual signal.}
 \item{signalName}{Name of the signal}}
 \examples{Brush.gen <- setRefClass("Brush",
                        fields = signalingFields(list(color = "character",
-                          age = "numeric")))
+                          age = "numeric"), signalName = "brushChanged"))
 brush <- Brush.gen$new(color = "red", age = 2)
-brush$changed$connect(function(x){print(paste(x,
+brush$brushChanged$connect(function(x){print(paste(x,
 "changed, so emit any-changed signal"))})
 brush$colorChanged$connect(function() print("colorChanged signal emited"))
 brush$age <- 3
