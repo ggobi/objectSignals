@@ -25,6 +25,7 @@ signalingField <- function(name, class,
       if (!is(val, .class))
         stop("Cannot set an object of type '", class(val), "' on '", name,
              "', a field of type '", .class, "'")
+      else val <- as(val, .class, strict = FALSE)
       changed <- !identical(.name, val)
       .name <<- val
       if (changed) {
@@ -63,19 +64,16 @@ signalingFields <- function(fields, signalName = "changed") {
     as.function(c(alist(val=), substitute({
       if (missing(val)) {
         .fieldName
-      } else {
-        tmpVal <- try(as(val, fieldClass, strict = FALSE), silent = TRUE)
-        if (is(tmpVal, "try-error"))
+      } else { ### FIXME: should share code with signalingField, above
+        if (!is(val, fieldClass))
           stop("Cannot set an object of type '", class(val), "' on '",
                fieldName, "', a field of type '", fieldClass, "'")
-        else if (!isTRUE(msg <- validObject(tmpVal, TRUE)))
-          stop("Attempt to set invalid value on '", fieldName, "': ", msg)
-        val <- tmpVal
-        changedlogic <- !identical(.fieldName, val)
+        else val <- as(val, fieldClass, strict = FALSE)
+        fieldHasChanged <- !identical(.fieldName, val)
         .fieldName <<- val
-        if (changedlogic) {
-          signalName$emit(fieldName)    #global signal
-          thisSignal$emit()             #individual signal
+        if (fieldHasChanged) {
+          signalName$emit(fieldName)
+          thisSignal$emit()
         }
       }
     }, list(.fieldName = as.name(.fieldName),
@@ -88,7 +86,7 @@ signalingFields <- function(fields, signalName = "changed") {
       lazyField(nm,"Signal", Signal())
     })
   c(activeFields, structure(fields, names = .fieldNames),
-    lazyField(signalName,"Signal", Signal(name)),
+    lazyField(signalName, "Signal", Signal(name)),
     unlist(indSigs))
 }
 
