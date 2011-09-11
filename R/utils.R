@@ -18,7 +18,6 @@
 ##'                          fields = fieldWithPrototype("color", "character", "red"))
 ##' brush <- Brush.gen$new()
 ##' brush$color
-##' brush$colorChanged$connect(function() print(brush$color))
 ##' brush$color <- "blue"
 ##' brush$color
 fieldWithPrototype <- function(name, class, value) {
