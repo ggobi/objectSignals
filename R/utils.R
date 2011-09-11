@@ -13,6 +13,14 @@
 ##' @return A list suitable for use with \code{\link{setRefClass}}
 ##' @author Michael lawrence
 ##' @export
+##' @examples
+##' Brush.gen <- setRefClass("Brush",
+##'                          fields = fieldWithPrototype("color", "character", "red"))
+##' brush <- Brush.gen$new()
+##' brush$color
+##' brush$colorChanged$connect(function() print(brush$color))
+##' brush$color <- "blue"
+##' brush$color
 fieldWithPrototype <- function(name, class, value) {
   .name <- paste(".", name, sep = "")
   .init <- paste(".init", name, sep = ".")
