@@ -1,6 +1,7 @@
 ## ======================================================================
 ## utils
 ## ======================================================================
+
 ##' A convenience for declaring a default value for a field, in the
 ##' vein of \code{\link[methods]{prototype}} for S4 classes, except
 ##' the default value is quoted and evaluated lazily.
