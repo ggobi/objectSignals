@@ -62,8 +62,8 @@ The returned event then replaces the event in the buffer.}
 
 
 \section{Constructor}{
-  \describe{
-    \item{}{
+  \itemize{
+    \item{
       \code{Signal(...)}
       Create an instance of the reference class \code{Signal}
       \describe{
@@ -74,12 +74,12 @@ The returned event then replaces the event in the buffer.}
 }
 
 \section{Accessors}{
-  \describe{
-    \item{}{
+  \itemize{
+    \item{
       \code{length(x)}:
       The number of listeners in signal x.
     }
-    \item{}{
+    \item{
       \code{listeners(object)}:
       A list of listeners in signal x.
     }
