@@ -1,6 +1,6 @@
 Package: objectSignals
 License: GPL (>= 2)
-Maintainer: Michael Lawrence <michafla@gene.com>
+Maintainer: Michael Lawrence <lawremi@gmail.com>
 Title: objectSignals
 Author: Michael Lawrence, Tengfei Yin
 Description: A mutable Signal object can report changes to its state,
